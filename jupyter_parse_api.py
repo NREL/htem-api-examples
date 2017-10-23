@@ -333,3 +333,4 @@ def positions_handle(positions_list,sample_level,position_level):
         sample_level.append('position_ids')
         return samples_handle(samples_list,sample_level,position_level)
 
+print(htem_data_collect([213809],['oo_all']))
