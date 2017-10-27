@@ -14,28 +14,30 @@ import pandas as pd
 
 class Sample:
     
-    def __init__(self,ID,which):
-        self.ID = ID
-        self.which = which
+    def __init__(self,identity):
+        self.identity = identity
         
     def properties(self):
-        url = 'https://api.hpc.nrel.gov/xrd/api/positions/'+str(self.ID)
+        url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
         response = urllib.urlopen(url)
         data = json.loads(response.read())
         df = pd.DataFrame()
-        ### POPULATE PANDAS df USING DATA FROM THE URL ABOVE!!!    
+        for i in data:
+            df[i] = [data[i]]
         return df
     
-    def spectra(self):
-        url = 'https://api.hpc.nrel.gov/xrd/api/positions/'+str(self.ID)
+    def spectra(self,which):
+        url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
+        #There is the potential to replace this with mvl_optical or mvl_xrd, 
+        #but these seem to be broken at the moment...
         response = urllib.urlopen(url)
         data = json.loads(response.read())
         df = pd.DataFrame()
-        if self.which == 'xrd':
+        if which == 'xrd':
             df['xrd_angle'] = data['xrd_angle']
             df['xrd_background'] = data['xrd_background']
             df['xrd_intensity'] = data['xrd_intensity']
-        elif self.which == 'optical':
+        elif which == 'optical':
             try:
                 df['uvit_wave'] = data['oo']['uvit']['wavelength']
                 df['uvit_response'] = data['oo']['uvit']['response']
@@ -56,10 +58,6 @@ class Sample:
                 df['nirr_response'] = data['oo']['nirr']['response']
             except KeyError: #No nirr available
                 pass
-
+        else:
+            pass
         return df
-
-
-test = Sample(367780, 'optical')
-df = test.spectra()
-print(df)
