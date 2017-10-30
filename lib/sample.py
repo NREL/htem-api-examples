@@ -17,6 +17,13 @@ class Sample:
     def __init__(self,identity):
         self.identity = identity
         
+    @staticmethod
+    def search_by_ids(ids_list):
+        obj_list = []
+        for i in ids_list:
+            obj_list.append(Sample(i))
+        return obj_list
+
     def properties(self):
         url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
         response = urllib.urlopen(url)
@@ -25,7 +32,7 @@ class Sample:
         for i in data:
             df[i] = [data[i]]
         return df
-    
+            
     def spectra(self,which):
         url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
         #There is the potential to replace this with mvl_optical or mvl_xrd, 
@@ -39,25 +46,26 @@ class Sample:
             df['xrd_intensity'] = data['xrd_intensity']
         elif which == 'optical':
             try:
-                df['uvit_wave'] = data['oo']['uvit']['wavelength']
-                df['uvit_response'] = data['oo']['uvit']['response']
+                df['uvit_wave'] = [data['oo']['uvit']['wavelength']]
+                df['uvit_response'] = [data['oo']['uvit']['response']]
             except KeyError: #No uvit available
                 pass
             try:
-                df['uvir_wave'] = data['oo']['uvir']['wavelength']
-                df['uvir_response'] = data['oo']['uvir']['response']
+                df['uvir_wave'] = [data['oo']['uvir']['wavelength']]
+                df['uvir_response'] = [data['oo']['uvir']['response']]
             except KeyError: #No uvir available
                 pass
             try:
-                df['nirt_wave'] = data['oo']['nirt']['wavelength']
-                df['nirt_response'] = data['oo']['nirt']['response']
+                df['nirt_wave'] = [data['oo']['nirt']['wavelength']]
+                df['nirt_response'] = [data['oo']['nirt']['response']]
             except KeyError: #No nirt available
                 pass
             try:
-                df['nirr_wave'] = data['oo']['nirr']['wavelength']
-                df['nirr_response'] = data['oo']['nirr']['response']
+                df['nirr_wave'] = [data['oo']['nirr']['wavelength']]
+                df['nirr_response'] = [data['oo']['nirr']['response']]
             except KeyError: #No nirr available
                 pass
         else:
             pass
         return df
+

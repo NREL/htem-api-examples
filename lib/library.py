@@ -17,44 +17,40 @@ class Library:
     def __init__(self,identity):
         self.identity = identity
 
-    def search_by_ids(self,ids_list):
-        #I think it might be easier for one to just iterate over the positions in the sample.py,
-        #was this function supposed to query over POSITIONS or SAMPLES? Come back later...
-        t = []
+    @staticmethod
+    def search_by_ids(ids_list):
+        obj_list = []
         for i in ids_list:
-            url = 'https://htem-api.nrel.gov/api/positions/'+str(i)
-            response = urllib.urlopen(url)
-            data = json.loads(response.read())
-            df = pd.DataFrame()
-            for i in data:
-                df[i] = [data[i]]
-            t.append(df)
-        return t
+            obj_list.append(Library(i))
+        return obj_list
 
-    def search_by_composition(self,only=[],not_including=[],any_of=[]):
-        url = 'https://htem-api.nrel.gov/api/samples/'+str(self.identity)
-        response = urllib.urlopen(url)
+    @staticmethod
+    def search_by_composition(only=[],not_including=[],any_of=[]):
+        elt_url = 'https://htem-api.nrel.gov/api/samples?element='
+        for i in only:
+            elt_url = elt_url+str(i)+','
+        response = urllib.urlopen(elt_url)
         data = json.loads(response.read())
-        positions = data['position_ids'] #Should the samples level also be queried for "elements"?
-        df = pd.DataFrame()
-        for k in positions:
-            url = 'https://htem-api.nrel.gov/api/positions/'+str(k)
-            response = urllib.urlopen(url)
-            data = json.loads(response.read())
-            leveled_position = data['position']
-            positions_elements_list = list(data['xrf_elements'])
-            if len(set(positions_elements_list).intersection(not_including)) != 0:
-                df['elements_'+str(leveled_position)] = [False]
-                continue
-            if len(set(positions_elements_list).intersection(only)) == len(only):
-                df['elements_'+str(leveled_position)] = [True]
-                continue
-            if len(set(positions_elements_list).intersection(only)) != 0:
-                df['elements_'+str(leveled_position)] = [True]
-                continue
+        ids_list = []
+        for i in data:
+            elts = str(i['elements'])
+            violated = False
+            for k in not_including:
+                if k in elts:
+                    violated = True
+            l = 0
+            for k in only:
+                if k in elts:
+                    l = l+1
+            if l == len(only) and violated == False:
+                ids_list.append(i['id'])
             else:
-                df['elements_'+str(leveled_position)] = [False]
-        return df
+                pass
+        obj_list = []
+        for i in ids_list:
+            obj_list.append(Library(i))
+        return obj_list
+
             
     def properties(self):
         url = 'https://htem-api.nrel.gov/api/samples/'+str(self.identity)
@@ -84,23 +80,23 @@ class Library:
                 df['xrd_intensity_'+str(leveled_position)] = data['xrd_intensity']
             elif which == 'optical':
                 try:
-                    df['uvit_wave_'+str(leveled_position)] = data['oo']['uvit']['wavelength']
-                    df['uvit_response_'+str(leveled_position)] = data['oo']['uvit']['response']
+                    df['uvit_wave_'+str(leveled_position)] = [data['oo']['uvit']['wavelength']]
+                    df['uvit_response_'+str(leveled_position)] = [data['oo']['uvit']['response']]
                 except KeyError: #No uvit available
                     pass
                 try:
-                    df['uvir_wave_'+str(leveled_position)] = data['oo']['uvir']['wavelength']
-                    df['uvir_response_'+str(leveled_position)] = data['oo']['uvir']['response']
+                    df['uvir_wave_'+str(leveled_position)] = [data['oo']['uvir']['wavelength']]
+                    df['uvir_response_'+str(leveled_position)] = [data['oo']['uvir']['response']]
                 except KeyError: #No uvir available
                     pass
                 try:
-                    df['nirt_wave_'+str(leveled_position)] = data['oo']['nirt']['wavelength']
-                    df['nirt_response_'+str(leveled_position)] = data['oo']['nirt']['response']
+                    df['nirt_wave_'+str(leveled_position)] = [data['oo']['nirt']['wavelength']]
+                    df['nirt_response_'+str(leveled_position)] = [data['oo']['nirt']['response']]
                 except KeyError: #No nirt available
                     pass
                 try:
-                    df['nirr_wave_'+str(leveled_position)] = data['oo']['nirr']['wavelength']
-                    df['nirr_response_'+str(leveled_position)] = data['oo']['nirr']['response']
+                    df['nirr_wave_'+str(leveled_position)] = [data['oo']['nirr']['wavelength']]
+                    df['nirr_response_'+str(leveled_position)] = [data['oo']['nirr']['response']]
                 except KeyError: #No nirr available
                     pass
             else:
