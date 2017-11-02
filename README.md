@@ -23,10 +23,13 @@ sample.py: See the "lib" folder. This file contains a class that is designed to 
 To get started, download Anaconda or another distribution of Python. Make sure that pandas, numpy, and scipy are all included in the distribution. One can then clone the repository using the command:
 
 git clone https://github.com/NREL/htem-api-examples.git
+
 cd htem-api-examples.git
 
 The updated repository should then be available.
 
 Finally, you can use Jupyter Notebook to view the example notebooks. First, navigate to the directory, then enter:
+
 cd notebooks
+
 jupyter notebook
