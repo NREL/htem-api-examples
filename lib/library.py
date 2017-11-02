@@ -79,26 +79,33 @@ class Library:
                 df['xrd_background_'+str(leveled_position)] = data['xrd_background']
                 df['xrd_intensity_'+str(leveled_position)] = data['xrd_intensity']
             elif which == 'optical':
+                pos_df = pd.DataFrame()
+                uvit_df = pd.DataFrame()
                 try:
-                    df['uvit_wave_'+str(leveled_position)] = [data['oo']['uvit']['wavelength']]
-                    df['uvit_response_'+str(leveled_position)] = [data['oo']['uvit']['response']]
+                    uvit_df['uvit_wave_'+str(leveled_position)] = data['oo']['uvit']['wavelength']
+                    uvit_df['uvit_response_'+str(leveled_position)] = data['oo']['uvit']['response']
                 except KeyError: #No uvit available
                     pass
+                uvir_df = pd.DataFrame()
                 try:
-                    df['uvir_wave_'+str(leveled_position)] = [data['oo']['uvir']['wavelength']]
-                    df['uvir_response_'+str(leveled_position)] = [data['oo']['uvir']['response']]
+                    uvir_df['uvir_wave_'+str(leveled_position)] = data['oo']['uvir']['wavelength']
+                    uvir_df['uvir_response_'+str(leveled_position)] = data['oo']['uvir']['response']
                 except KeyError: #No uvir available
                     pass
+                nirt_df = pd.DataFrame()
                 try:
-                    df['nirt_wave_'+str(leveled_position)] = [data['oo']['nirt']['wavelength']]
-                    df['nirt_response_'+str(leveled_position)] = [data['oo']['nirt']['response']]
+                    nirt_df['nirt_wave_'+str(leveled_position)] = data['oo']['nirt']['wavelength']
+                    nirt_df['nirt_response_'+str(leveled_position)] = data['oo']['nirt']['response']
                 except KeyError: #No nirt available
                     pass
+                nirr_df = pd.DataFrame()
                 try:
-                    df['nirr_wave_'+str(leveled_position)] = [data['oo']['nirr']['wavelength']]
-                    df['nirr_response_'+str(leveled_position)] = [data['oo']['nirr']['response']]
+                    nirr_df['nirr_wave_'+str(leveled_position)] = data['oo']['nirr']['wavelength']
+                    nirr_df['nirr_response_'+str(leveled_position)] = data['oo']['nirr']['response']
                 except KeyError: #No nirr available
                     pass
+                pos_df = pd.concat([uvit_df,uvir_df,nirt_df,nirr_df],axis=1)
+                df = pd.concat([df,pos_df],axis=1)
             else:
-                pass
+                df = pd.DataFrame()
         return df
