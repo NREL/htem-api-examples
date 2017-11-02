@@ -19,3 +19,14 @@ sample.py: See the "lib" folder. This file contains a class that is designed to 
 4_Four_Point_Plotting.ipynb: Analyzes data from four-point probe (4PP) measurements, which yields electrical measurements such as sheet resistance, conductivity, etc. Heatmap plots may be made to show how conductivity changes with respect to composition and position.
 
 5_Optical_Plotting.ipynb: Analyzes optical measurements, which includes spectra from near-infrared ranges to ultra-violet ranges. Demonstrates some basic plotting as well as absorption coefficient calculations and basic Tauc plotting.
+
+To get started, download Anaconda or another distribution of Python. Make sure that pandas, numpy, and scipy are all included in the distribution. One can then clone the repository using the command:
+
+git clone https://github.com/NREL/htem-api-examples.git
+cd htem-api-examples.git
+
+The updated repository should then be available.
+
+Finally, you can use Jupyter Notebook to view the example notebooks. First, navigate to the directory, then enter:
+cd notebooks
+jupyter notebook
