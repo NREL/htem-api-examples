@@ -1,9 +1,21 @@
 This GitHub repository is created for use on the NREL High-Throughput Experimental Materials Database (https://htem.nrel.gov/). While the database offers a number of visualization tools for various types of materials tests, an advanced user may desire a more hands-on approach. This repository offers a number of Jupyter notebooks that interact directly with the API in order to do more advanced statistical analysis and graphical visualization. The Jupyter notebooks allow one to read and digest blocks of code while learning more about how various statistical techniques may be applied to this dataset. This repository is currently broken into several Python files and then five Jupyter Notebooks. They are:
 
-i. jupyter_parse_api.py: This is the main function that interacts with the NREL HTEM API so that you don't have to.
 
-1. Basic_Query_Tools.ipynb: This gives a brief introduction into how data may be queried using functions within jupyter_parse_api.py. It also gives users an overview of the different types of data available for analysis within the database.
-2. XRD_Analysis.ipynb: Takes a deeper look at how X-Ray diffraction spectra may be analyzed and clustered to reveal deeper trends in crystal structure across substrates and across phase diagrams. (under construction)
-3. XRF_Analysis.ipynb: Takes a deeper look at how data from X-Ray fluorescence measurements (including thickness, composition, etc.) may be analyzed to show gradients across substrates and other phenomena. (under construction)
-4. 4PP_Analysis.ipynb: Takes a deeper look at Four-Point Probe (4PP) analysis, which yields electrical measurements such as sheet resistance, conductivity, etc. (under construction)
-5. Optical_Analysis.ipynb: Takes a deeper look at Optical analysis, which includes spectra from near-infrared ranges to ultra-violet ranges and can yield to more complex computations, such as the expected band gap. (under construction)
+
+
+library.py: See the "lib" folder. This file contains a class that is designed to query data from the API at the library level (all 44 points).
+
+sample.py: See the "lib" folder. This file contains a class that is designed to query data from the API at the sample level (individual points).
+
+
+
+
+1_Basic_Queries.ipynb: Gives a brief introduction of how to use the Library and Sample modules to query information at different levels.
+
+2_XRD_Plotting.ipynb: Takes a look at how x-ray diffraction spectra may be easily plotted and how basic peak detection may be implemented.
+
+3_XRF_Plotting.ipynb: Analyzes how data from x-ray fluorescence measurements (including thickness, composition, etc.), heat maps are used to reveal gradients across substrates and other phenomena.
+
+4_Four_Point_Plotting.ipynb: Analyzes data from four-point probe (4PP) measurements, which yields electrical measurements such as sheet resistance, conductivity, etc. Heatmap plots may be made to show how conductivity changes with respect to composition and position.
+
+5_Optical_Plotting.ipynb: Analyzes optical measurements, which includes spectra from near-infrared ranges to ultra-violet ranges. Demonstrates some basic plotting as well as absorption coefficient calculations and basic Tauc plotting.
