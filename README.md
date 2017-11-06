@@ -39,4 +39,5 @@ This software was developed by Marcus Schwarting (marcus.schwarting@nrel.gov) an
 
 ### License
 
-TBD
+Copyright (c) 2017, National Renewable Energy Laboratory (NREL)
+All rights reserved. See LICENSE for additional information.
