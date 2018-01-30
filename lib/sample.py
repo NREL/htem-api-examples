@@ -25,7 +25,7 @@ class Sample:
         return obj_list
 
     def properties(self):
-        url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
+        url = 'https://htem-api.nrel.gov/api/sample/'+str(self.identity)
         response = urllib.urlopen(url)
         data = json.loads(response.read())
         df = pd.DataFrame()
@@ -34,7 +34,7 @@ class Sample:
         return df
             
     def spectra(self,which):
-        url = 'https://htem-api.nrel.gov/api/positions/'+str(self.identity)
+        url = 'https://htem-api.nrel.gov/api/sample/'+str(self.identity)
         #There is the potential to replace this with mvl_optical or mvl_xrd, 
         #but these seem to be broken at the moment...
         response = urllib.urlopen(url)
