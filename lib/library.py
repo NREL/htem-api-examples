@@ -65,7 +65,7 @@ class Library:
         url = 'https://htem-api.nrel.gov/api/sample_library/'+str(self.identity)
         response = urllib.urlopen(url)
         data = json.loads(response.read())
-        positions = data['position_ids']
+        positions = data['sample_ids']
         df = pd.DataFrame()
         for k in positions:
             url = 'https://htem-api.nrel.gov/api/sample/'+str(k)
