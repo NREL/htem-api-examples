@@ -21,8 +21,6 @@ def linregress(x,y):
         x_times_y.append(float(x[i])*float(y[i]))
     intercept=(sum(y)*sum(x_squared)-sum(x)*sum(x_times_y))/(len(x)*sum(x_squared)-sum(x)**2)
     slope=(len(x)*sum(x_times_y)-sum(x)*sum(y))/(len(x)*sum(x_squared)-sum(x)**2)
-    #a+bx=y Where a is intercept and b is slope
-    #Calculate the R**2 value through the formula 1-(SSres/SStot)
     y_mean=sum(y)/len(y)
     y_res = []
     y_tot = []
@@ -31,16 +29,6 @@ def linregress(x,y):
         y_res.append((modeled_pt-y_mean)**2)
         y_tot.append((y[i]-y_mean)**2)
     R_squared = sum(y_res)/sum(y_tot)
-#    y_diff_squared=[]
-#    for i in y:
-#        y_diff_squared.append((i-y_mean)**2)
-#    SStot=sum(y_diff_squared)
-#    y_diff_func_squared=[]
-#    for i in y:
-#        y_diff_func_squared.append((i-(slope*i+intercept))**2)
-#    SSres=sum(y_diff_func_squared)
-#    
-#    R_squared=1-(SSres/SStot)
     x_intercept = -intercept/slope
     return slope, intercept, R_squared, x_intercept
 
@@ -48,6 +36,9 @@ def linregress(x,y):
 
 def santosh_newhouse_gregoire_method(energy,absorption_coefficient,bg_type ='direct',show_graph=True):
     return 'This method has not yet been given permission to be used.'
+
+
+
 
 def segmentation_method(energy,absorption_coefficient,bg_type ='direct',show_graph=True):
     direct_abs_corrected = absorption_coefficient
@@ -212,7 +203,14 @@ def segmentation_method(energy,absorption_coefficient,bg_type ='direct',show_gra
                 plt.scatter(x,x*h[2]+h[3],color='orange',s=2)
             for h in [position_linregress_vals_10_role[-1]]:
                 plt.scatter(x,x*h[2]+h[3],color='r',s=2)
-            plt.title('Tauc Plot for Direct Transitions',fontsize=20)
+            if bg_type == 'direct':
+                plt.title('Tauc Plot for Direct Transitions',fontsize=20)
+            elif bg_type == 'indirect':
+                plt.title('Tauc Plot for Indirect Transitions',fontsize=20)
+            elif bg_type == 'log10':
+                plt.title('Tauc Plot for LOG10 Transitions',fontsize=20)
+            else:
+                plt.title('Tauc Plot for Raw Alpha Transitions',fontsize=20)
             plt.xlabel('Energy (eV)',fontsize=14)
             plt.ylabel('(E'+u"\u03B1"+')'+u"\u00B2",fontsize=14)
             plt.xticks(fontsize=14)
@@ -223,6 +221,11 @@ def segmentation_method(energy,absorption_coefficient,bg_type ='direct',show_gra
     except (ValueError, IndexError):
         print("Empty Sequence!")
         return
+
+
+
+
+
 
 
 def mars_method(energy,absorption_coefficient,bg_type ='direct',show_graph=True):
@@ -256,9 +259,14 @@ def mars_method(energy,absorption_coefficient,bg_type ='direct',show_graph=True)
         plt.plot(energy,y_hat,'b.')
         plt.xlabel('Energy (eV)',fontsize=14)
         plt.ylabel('(E'+u"\u03B1"+')'+u"\u00B2",fontsize=14)
-        #                    plt.ylabel('sqrt(E'+u"\u03B1"+')',fontsize=14)
-        #                    plt.ylabel('Normalized Direct Absorbance',fontsize=14)
-        plt.title('Tauc Plot for Direct Transitions',fontsize=20)
+        if bg_type == 'direct':
+            plt.title('Tauc Plot for Direct Transitions',fontsize=20)
+        elif bg_type == 'indirect':
+            plt.title('Tauc Plot for Indirect Transitions',fontsize=20)
+        elif bg_type == 'log10':
+            plt.title('Tauc Plot for LOG10 Transitions',fontsize=20)
+        else:
+            plt.title('Tauc Plot for Raw Alpha Transitions',fontsize=20)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
     function = export.export_sympy(model)
